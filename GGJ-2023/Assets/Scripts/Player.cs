@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 
@@ -8,18 +9,23 @@ public class Player : CustomMonoBehaviour
     [SerializeField] int health;
     [SerializeField] float speed;
     [SerializeField] float jumpForce;
-    [SerializeField] int groundRayLength;
+    [SerializeField] float groundRayLength;
     [SerializeField] TMP_Text playerHealthText;
+
+    Animator animator;
 
     Rigidbody2D rb;
     FlashRed flashRed;
 
     bool isTouchingGround;
 
+    float groundTimerGracePeriod;
+
     protected override void Awake()
     {
         base.Awake();
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         flashRed = GetComponent<FlashRed>();
 
         isTouchingGround = false;
@@ -27,6 +33,8 @@ public class Player : CustomMonoBehaviour
 
     void Update()
     {
+        groundTimerGracePeriod += Time.deltaTime;
+
         if (Input.GetKey(KeyCode.A) ||
             Input.GetKey(KeyCode.D) ||
             rb.velocity.magnitude > 0.5f)
@@ -38,23 +46,32 @@ public class Player : CustomMonoBehaviour
             GameManager.instance.StopUpdateGame();
         }
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position,
-             Vector2.down,
-             groundRayLength,
-             LayerMask.GetMask("Ground"));
-
-        if (hit.collider != null)
+        if (groundTimerGracePeriod > 0.05f)
         {
-            isTouchingGround = true;
-        }
-        else
-        {
-            isTouchingGround = false;
+            RaycastHit2D hit = Physics2D.Raycast(transform.position,
+                 Vector2.down,
+                 groundRayLength,
+                 LayerMask.GetMask("Ground"));
+
+            if (hit.collider != null)
+            {
+                groundTimerGracePeriod = 0;
+                isTouchingGround = true;
+                animator.SetBool("Jump", false);
+            }
+            else
+            {
+                isTouchingGround = false;
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && isTouchingGround)
+        if (Input.GetKey(KeyCode.Space) && isTouchingGround)
         {
             rb.AddForce(new Vector2(0, jumpForce));
+            animator.SetBool("Jump", true);
+            groundTimerGracePeriod = 0;
+            isTouchingGround = false;
+            print("Jump" + jumpForce);
         }
     }
 
@@ -75,12 +92,19 @@ public class Player : CustomMonoBehaviour
                 transform.localScale.z);
         }
 
+        if (direction.magnitude > 0.25f)
+        {
+            animator.SetBool("Run", true);
+        }
+
         transform.position += direction * speed * Time.deltaTime;
     }
 
     protected override void OnStopUpdate()
     {
         base.OnStopUpdate();
+
+        animator.SetBool("Run", false);
     }
 
     public void IncreaseHealth(int incrementBy)
@@ -94,11 +118,12 @@ public class Player : CustomMonoBehaviour
         health -= reduceBy;
         flashRed.FlashColor(0.25f);
         playerHealthText.text = $"Health: {health}";
+        animator.SetTrigger("TakeDamage");
     }
 
     void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawRay(transform.position, Vector2.down * 1);
+        Gizmos.DrawRay(transform.position, Vector2.down * groundRayLength);
     }
 }
