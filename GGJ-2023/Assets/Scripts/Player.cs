@@ -10,6 +10,8 @@ public class Player : CustomMonoBehaviour
     [SerializeField] float speed;
     [SerializeField] float jumpForce;
     [SerializeField] float groundRayLength;
+    [SerializeField] float damageRayLength;
+    
     [SerializeField] TMP_Text playerHealthText;
 
     Animator animator;
@@ -77,6 +79,23 @@ public class Player : CustomMonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             animator.SetInteger("Attack", Random.Range(1, 4));
+
+            Vector2 direction = Vector2.zero;
+
+            if (transform.localScale.x > 0)
+                direction = Vector2.right;
+            else
+                direction = Vector2.left;
+
+            RaycastHit2D hit = Physics2D.Raycast(transform.position,
+                     direction,
+                     damageRayLength,
+                     LayerMask.GetMask("Enemies"));
+
+            if (hit.collider != null)
+            {
+                hit.collider.gameObject.GetComponent<Enemy>().ReduceHealth(10);
+            }
         }
     }
 
@@ -135,5 +154,8 @@ public class Player : CustomMonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawRay(transform.position, Vector2.down * groundRayLength);
+
+        Gizmos.DrawRay(transform.position, Vector2.right * damageRayLength);
+        Gizmos.DrawRay(transform.position, Vector2.left * damageRayLength);
     }
 }

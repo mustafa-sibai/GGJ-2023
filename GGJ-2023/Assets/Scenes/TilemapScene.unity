@@ -5404,6 +5404,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1616153853}
     m_Modifications:
     - target: {fileID: 722761226, guid: 613431bbca51a1041af2310a3b9c4552, type: 3}
+      propertyPath: damageRayLength
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 722761226, guid: 613431bbca51a1041af2310a3b9c4552, type: 3}
       propertyPath: playerHealthText
       value: 
       objectReference: {fileID: 217518654}
