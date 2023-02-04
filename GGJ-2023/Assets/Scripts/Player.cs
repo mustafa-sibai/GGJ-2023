@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : CustomMonoBehaviour
 {
     [SerializeField] float speed;
+    [SerializeField] float jumpForce;
 
     Rigidbody2D rb;
 
@@ -16,15 +17,18 @@ public class Player : CustomMonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
-        {
-            GameManager.instance.UpdateGame();
-        }
     }
 
     void FixedUpdate()
     {
-        if(rb.velocity.magnitude > 0.5f)
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            rb.AddForce(new Vector2(0, jumpForce));
+        }
+
+        if (Input.GetKey(KeyCode.A) || 
+            Input.GetKey(KeyCode.D) ||
+            rb.velocity.magnitude > 0.5f)
         {
             GameManager.instance.UpdateGame();
         }
