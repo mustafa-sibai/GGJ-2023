@@ -19,8 +19,11 @@ public class Enemy : CustomMonoBehaviour
     {
         base.OnUpdate();
 
-        float distanceToPlayer = Vector3.Distance(player.transform.position,
+        float distanceToPlayer = Vector3.Distance(
+            new Vector3(player.transform.position.x, transform.position.y, 0),
             transform.position);
+
+        print(distanceToPlayer);
 
         if (distanceToPlayer < radius)
         {
