@@ -1,13 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Player : CustomMonoBehaviour
 {
+    [SerializeField] int health;
     [SerializeField] float speed;
     [SerializeField] float jumpForce;
+    [SerializeField] int groundRayLength;
+    [SerializeField] TMP_Text playerHealthText;
 
     Rigidbody2D rb;
+    FlashRed flashRed;
 
     bool isTouchingGround;
 
@@ -15,6 +20,7 @@ public class Player : CustomMonoBehaviour
     {
         base.Awake();
         rb = GetComponent<Rigidbody2D>();
+        flashRed = GetComponent<FlashRed>();
 
         isTouchingGround = false;
     }
@@ -34,7 +40,7 @@ public class Player : CustomMonoBehaviour
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position,
              Vector2.down,
-             1,
+             groundRayLength,
              LayerMask.GetMask("Ground"));
 
         if (hit.collider != null)
@@ -75,6 +81,19 @@ public class Player : CustomMonoBehaviour
     protected override void OnStopUpdate()
     {
         base.OnStopUpdate();
+    }
+
+    public void IncreaseHealth(int incrementBy)
+    {
+        health += incrementBy;
+        playerHealthText.text = $"Health: {health}";
+    }
+
+    public void ReduceHealth(int reduceBy)
+    {
+        health -= reduceBy;
+        flashRed.FlashColor(0.25f);
+        playerHealthText.text = $"Health: {health}";
     }
 
     void OnDrawGizmos()
