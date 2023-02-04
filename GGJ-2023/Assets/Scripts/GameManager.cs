@@ -7,7 +7,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     public delegate void UpdateEvent();
-    public UpdateEvent UpdateGame;
+    public UpdateEvent StartUpdateGame;
+    public UpdateEvent StopUpdateGame;
 
     void Awake()
     {

@@ -6,19 +6,25 @@ public class CustomMonoBehaviour : MonoBehaviour
 {
     protected virtual void OnDestroy()
     {
-        GameManager.instance.UpdateGame -= OnUpdate;
+        GameManager.instance.StartUpdateGame -= OnStartUpdate;
+        GameManager.instance.StopUpdateGame -= OnStopUpdate;
     }
 
     protected virtual void Awake()
     {
-        GameManager.instance.UpdateGame += OnUpdate;
+        GameManager.instance.StartUpdateGame += OnStartUpdate;
+        GameManager.instance.StopUpdateGame += OnStopUpdate;
     }
 
     protected virtual void Start()
     {
     }
 
-    protected virtual void OnUpdate()
+    protected virtual void OnStartUpdate()
+    {
+    }
+
+    protected virtual void OnStopUpdate()
     {
     }
 }
