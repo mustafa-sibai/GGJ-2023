@@ -18,7 +18,7 @@ public class SceneLoading: MonoBehaviour
     public void LoadTheScene()
     {
         fadeInAndOut.Play("FadeIn");
-       // SceneManager.LoadScene(nextScene);
+        SceneManager.LoadScene(nextScene);
     }
 
     private void Update()
