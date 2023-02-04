@@ -7,6 +7,7 @@ public class Enemy : CustomMonoBehaviour
     Player player;
 
     [SerializeField] float speed;
+    [SerializeField] float radius;
 
     protected override void Start()
     {
@@ -18,8 +19,27 @@ public class Enemy : CustomMonoBehaviour
     {
         base.OnUpdate();
 
-        Vector3 direction = (player.transform.position - transform.position).normalized;
+        float distanceToPlayer = Vector3.Distance(player.transform.position,
+            transform.position);
 
-        transform.position += direction * speed * Time.deltaTime;
+        if (distanceToPlayer < radius)
+        {
+            print("Attack");
+        }
+        else
+        {
+            Vector3 direction = (new Vector3(
+                        player.transform.position.x,
+                        transform.position.y,
+                        0) - transform.position).normalized;
+
+            transform.position += direction * speed * Time.deltaTime;
+        }
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(1, 0, 0, 0.25f);
+        Gizmos.DrawSphere(transform.position, radius);
     }
 }
