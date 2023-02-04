@@ -9,28 +9,42 @@ public class Player : CustomMonoBehaviour
 
     Rigidbody2D rb;
 
+    bool isTouchingGround;
+
     protected override void Awake()
     {
         base.Awake();
         rb = GetComponent<Rigidbody2D>();
+
+        isTouchingGround = false;
     }
 
     void Update()
     {
-    }
-
-    void FixedUpdate()
-    {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            rb.AddForce(new Vector2(0, jumpForce));
-        }
-
-        if (Input.GetKey(KeyCode.A) || 
+        if (Input.GetKey(KeyCode.A) ||
             Input.GetKey(KeyCode.D) ||
             rb.velocity.magnitude > 0.5f)
         {
             GameManager.instance.UpdateGame();
+        }
+
+        RaycastHit2D hit = Physics2D.Raycast(transform.position,
+             Vector2.down,
+             1,
+             LayerMask.GetMask("Ground"));
+
+        if (hit.collider != null)
+        {
+            isTouchingGround = true;
+        }
+        else
+        {
+            isTouchingGround = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && isTouchingGround)
+        {
+            rb.AddForce(new Vector2(0, jumpForce));
         }
     }
 
@@ -44,5 +58,11 @@ public class Player : CustomMonoBehaviour
             0).normalized;
 
         transform.position += direction * speed * Time.deltaTime;
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawRay(transform.position, Vector2.down * 1);
     }
 }
