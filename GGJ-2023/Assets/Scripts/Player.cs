@@ -92,7 +92,7 @@ public class Player : CustomMonoBehaviour
     public void ReduceHealth(int reduceBy)
     {
         health -= reduceBy;
-        flashRed.FlashColor(100);
+        flashRed.FlashColor(0.25f);
         playerHealthText.text = $"Health: {health}";
     }
 

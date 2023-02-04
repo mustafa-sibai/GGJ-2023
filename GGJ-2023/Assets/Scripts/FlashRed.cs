@@ -53,8 +53,9 @@ public class FlashRed : MonoBehaviour
         }
     }
 
-    public void FlashColor(int dely = 0)
+    public void FlashColor(float dely)
     {
+        this.dely = dely;
         flashToColor = true;
         flashBack = false;
         spriteRenderer.color = Color.white;
