@@ -9589,8 +9589,16 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 722761226, guid: 613431bbca51a1041af2310a3b9c4552, type: 3}
+      propertyPath: health
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 722761226, guid: 613431bbca51a1041af2310a3b9c4552, type: 3}
       propertyPath: jumpForce
       value: 570
+      objectReference: {fileID: 0}
+    - target: {fileID: 722761226, guid: 613431bbca51a1041af2310a3b9c4552, type: 3}
+      propertyPath: groundRayLength
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 7057704519122737592, guid: 613431bbca51a1041af2310a3b9c4552, type: 3}
       propertyPath: m_GravityScale
@@ -10935,7 +10943,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1991877558}
-  m_BodyType: 0
+  m_BodyType: 2
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
