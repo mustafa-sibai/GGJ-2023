@@ -25,7 +25,11 @@ public class Player : CustomMonoBehaviour
             Input.GetKey(KeyCode.D) ||
             rb.velocity.magnitude > 0.5f)
         {
-            GameManager.instance.UpdateGame();
+            GameManager.instance.StartUpdateGame();
+        }
+        else
+        {
+            GameManager.instance.StopUpdateGame();
         }
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position,
@@ -48,16 +52,29 @@ public class Player : CustomMonoBehaviour
         }
     }
 
-    protected override void OnUpdate()
+    protected override void OnStartUpdate()
     {
-        base.OnUpdate();
+        base.OnStartUpdate();
 
         Vector3 direction = new Vector3(
             Input.GetAxisRaw("Horizontal"),
             0,
             0).normalized;
 
+        if (direction.x > 0 && transform.localScale.x < 0 ||
+            direction.x < 0 && transform.localScale.x > 0)
+        {
+            transform.localScale = new Vector3(transform.localScale.x * -1,
+                transform.localScale.y,
+                transform.localScale.z);
+        }
+
         transform.position += direction * speed * Time.deltaTime;
+    }
+
+    protected override void OnStopUpdate()
+    {
+        base.OnStopUpdate();
     }
 
     void OnDrawGizmos()
