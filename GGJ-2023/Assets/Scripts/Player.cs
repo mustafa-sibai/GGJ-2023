@@ -37,6 +37,7 @@ public class Player : CustomMonoBehaviour
 
         if (Input.GetKey(KeyCode.A) ||
             Input.GetKey(KeyCode.D) ||
+            Input.GetMouseButtonDown(0) ||
             rb.velocity.magnitude > 0.5f)
         {
             GameManager.instance.StartUpdateGame();
@@ -65,13 +66,17 @@ public class Player : CustomMonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.Space) && isTouchingGround)
+        if (Input.GetKeyDown(KeyCode.Space) && isTouchingGround)
         {
             rb.AddForce(new Vector2(0, jumpForce));
             animator.SetBool("Jump", true);
             groundTimerGracePeriod = 0;
             isTouchingGround = false;
-            print("Jump" + jumpForce);
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            animator.SetInteger("Attack", Random.Range(1, 4));
         }
     }
 
@@ -119,6 +124,11 @@ public class Player : CustomMonoBehaviour
         flashRed.FlashColor(0.25f);
         playerHealthText.text = $"Health: {health}";
         animator.SetTrigger("TakeDamage");
+    }
+
+    public void StopAttack()
+    {
+        animator.SetInteger("Attack", 0);
     }
 
     void OnDrawGizmos()
