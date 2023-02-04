@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 2076173369}
   - component: {fileID: 2076173370}
   - component: {fileID: 369653957}
-  m_Layer: 0
+  - component: {fileID: 696081874}
+  m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +102,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
-  radius: 1.5
+  radius: 1
+  attackFrequancy: 0.5
+  attackRayLength: 1
 --- !u!50 &2076173369
 Rigidbody2D:
   serializedVersion: 4
@@ -136,7 +139,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0069063157, y: 0.005316198}
+  m_Offset: {x: -0.0069063157, y: 0.016498987}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -147,7 +150,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.3254209, y: 0.29471922}
+  m_Size: {x: 0.3254209, y: 0.27235365}
   m_EdgeRadius: 0
 --- !u!95 &369653957
 Animator:
@@ -169,3 +172,16 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &696081874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9214217348566943791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c05313f9d940c94bbb779be2b763634, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 35
