@@ -6,13 +6,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    [HideInInspector] public float globalSpeed = 0;
+    public delegate void UpdateEvent();
+    public UpdateEvent UpdateGame;
 
-    [SerializeField] float globalSpeedIncrementBy;
-    [SerializeField] float globalSpeedDecrementBy;
-    [SerializeField] float maxGlobalSpeed;
-
-    private void Awake()
+    void Awake()
     {
         if (instance == null)
         {
@@ -26,25 +23,9 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-
     }
 
     void Update()
     {
-
-    }
-
-    public void IncreaseGlobalSpeed()
-    {
-        globalSpeed = 1;
-        //globalSpeed += globalSpeedIncrementBy * Time.deltaTime;
-        //globalSpeed = Mathf.Clamp(globalSpeed, 0, maxGlobalSpeed);
-    }
-
-    public void DecreaseGlobalSpeed()
-    {
-        globalSpeed = 0;
-        //globalSpeed -= globalSpeedDecrementBy * Time.deltaTime;
-        //globalSpeed = Mathf.Clamp(globalSpeed, 0, maxGlobalSpeed);
     }
 }

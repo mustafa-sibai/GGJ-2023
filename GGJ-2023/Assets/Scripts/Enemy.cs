@@ -2,22 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : CustomMonoBehaviour
 {
     Player player;
 
     [SerializeField] float speed;
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         player = FindObjectOfType<Player>();
     }
 
-    void Update()
+    protected override void OnUpdate()
     {
+        base.OnUpdate();
+
         Vector3 direction = (player.transform.position - transform.position).normalized;
 
-        transform.position += direction * speed * Time.deltaTime *
-            GameManager.instance.globalSpeed;
+        transform.position += direction * speed * Time.deltaTime;
     }
 }
