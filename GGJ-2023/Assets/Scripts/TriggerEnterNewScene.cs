@@ -20,4 +20,11 @@ public class TriggerEnterNewScene : MonoBehaviour
 
         }
     }
+
+    public void ANNALOADSCENE()
+    {
+        sceneLoadScript.LoadTheScene();
+
+    }
+
 }
