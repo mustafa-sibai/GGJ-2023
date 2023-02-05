@@ -3721,7 +3721,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9214217348566943791, guid: cf9ce631c48999f4a9bdf97586a34290, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf9ce631c48999f4a9bdf97586a34290, type: 3}
@@ -9196,13 +9196,14 @@ GameObject:
   - component: {fileID: 1246218712}
   - component: {fileID: 1246218714}
   - component: {fileID: 1246218713}
+  - component: {fileID: 1246218715}
   m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1246218712
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9264,6 +9265,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1246218711}
   m_CullTransparentMesh: 1
+--- !u!114 &1246218715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246218711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b05c1eb87042c84691910054d79df55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1268507879
 GameObject:
   m_ObjectHideFlags: 0
@@ -9590,11 +9603,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 722761226, guid: 613431bbca51a1041af2310a3b9c4552, type: 3}
       propertyPath: health
-      value: 100
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 722761226, guid: 613431bbca51a1041af2310a3b9c4552, type: 3}
       propertyPath: jumpForce
       value: 570
+      objectReference: {fileID: 0}
+    - target: {fileID: 722761226, guid: 613431bbca51a1041af2310a3b9c4552, type: 3}
+      propertyPath: damageRayLength
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 722761226, guid: 613431bbca51a1041af2310a3b9c4552, type: 3}
       propertyPath: groundRayLength

@@ -27,10 +27,11 @@ public class CharacterWobble : MonoBehaviour
     int count = 0;
     float refreshSpeed = 0.5f;
 
-
     string text;
     int indexInText = 0;
     float timer = 0;
+
+    [SerializeField] float typeWriterEffectSpeed;
 
     void Start()
     {
@@ -73,7 +74,7 @@ public class CharacterWobble : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        if (timer > 0.25f)
+        if (timer > typeWriterEffectSpeed)
         {
             if (indexInText < text.Length)
             {

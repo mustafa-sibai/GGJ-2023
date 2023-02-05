@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Threading;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : CustomMonoBehaviour
 {
-    [SerializeField] int health;
+    [SerializeField] int health = 3;
     [SerializeField] float speed;
     [SerializeField] float jumpForce;
     [SerializeField] float groundRayLength;
     [SerializeField] float damageRayLength;
-    
-    [SerializeField] TMP_Text playerHealthText;
 
     Animator animator;
 
@@ -23,12 +22,15 @@ public class Player : CustomMonoBehaviour
 
     float groundTimerGracePeriod;
 
+    PlayerHealth playerHealth;
+
     protected override void Awake()
     {
         base.Awake();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         flashRed = GetComponent<FlashRed>();
+        playerHealth = FindObjectOfType<PlayerHealth>();
 
         isTouchingGround = false;
     }
@@ -134,15 +136,18 @@ public class Player : CustomMonoBehaviour
     public void IncreaseHealth(int incrementBy)
     {
         health += incrementBy;
-        playerHealthText.text = $"Health: {health}";
     }
 
-    public void ReduceHealth(int reduceBy)
+    public void ReduceHealth()
     {
-        health -= reduceBy;
+        health = playerHealth.DamagePlayer(health);
         flashRed.FlashColor(0.25f);
-        playerHealthText.text = $"Health: {health}";
         animator.SetTrigger("TakeDamage");
+
+        if (health <= 0)
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 
     public void StopAttack()
