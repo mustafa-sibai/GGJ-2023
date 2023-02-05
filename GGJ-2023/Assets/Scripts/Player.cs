@@ -16,7 +16,6 @@ public class Player : CustomMonoBehaviour
     Animator animator;
 
     Rigidbody2D rb;
-    FlashRed flashRed;
 
     //---- TERRIBLE checkpoint system.
 
@@ -28,8 +27,9 @@ public class Player : CustomMonoBehaviour
 
     float groundTimerGracePeriod;
 
-
     PlayerHealth playerHealth;
+    Vector3 movement;
+    float groundRayOffset;
 
     protected override void Start()
     {
@@ -38,6 +38,8 @@ public class Player : CustomMonoBehaviour
         levelStart = GameObject.FindWithTag("StartDoor");
         checkpoint = GameObject.FindWithTag("Checkpoint");
         curentCheckpoint = levelStart.transform.position;
+
+        groundRayOffset = 0.3f;
     }
 
     protected override void Awake()
@@ -46,7 +48,6 @@ public class Player : CustomMonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        flashRed = GetComponent<FlashRed>();
         playerHealth = FindObjectOfType<PlayerHealth>();
 
         isTouchingGround = false;
@@ -70,12 +71,19 @@ public class Player : CustomMonoBehaviour
 
         if (groundTimerGracePeriod > 0.05f)
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position,
+            RaycastHit2D leftGroundRay = Physics2D.Raycast(transform.position - 
+                new Vector3(groundRayOffset, 0, 0),
                  Vector2.down,
                  groundRayLength,
                  LayerMask.GetMask("Ground"));
 
-            if (hit.collider != null)
+            RaycastHit2D rightGroundRay = Physics2D.Raycast(transform.position + 
+                new Vector3(groundRayOffset, 0, 0),
+                 Vector2.down,
+                 groundRayLength,
+                 LayerMask.GetMask("Ground"));
+
+            if (leftGroundRay.collider != null || rightGroundRay.collider != null)
             {
                 groundTimerGracePeriod = 0;
                 isTouchingGround = true;
@@ -113,9 +121,11 @@ public class Player : CustomMonoBehaviour
 
             if (hit.collider != null)
             {
-                hit.collider.gameObject.GetComponent<Enemy>().ReduceHealth(10);
+                hit.collider.gameObject.GetComponent<Enemy>().ReduceHealth(1);
             }
         }
+
+        movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0, 0).normalized * speed;
     }
 
     protected override void OnStartUpdate()
@@ -139,8 +149,11 @@ public class Player : CustomMonoBehaviour
         {
             animator.SetBool("Run", true);
         }
+    }
 
-        transform.position += direction * speed * Time.deltaTime;
+    private void FixedUpdate()
+    {
+        rb.velocity = new Vector2(movement.x, rb.velocity.y);
     }
 
     protected override void OnStopUpdate()
@@ -158,7 +171,6 @@ public class Player : CustomMonoBehaviour
     public void ReduceHealth()
     {
         health = playerHealth.DamagePlayer(health);
-        flashRed.FlashColor(0.25f);
         animator.SetTrigger("TakeDamage");
 
         if (health <= 0)
@@ -175,7 +187,8 @@ public class Player : CustomMonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawRay(transform.position, Vector2.down * groundRayLength);
+        Gizmos.DrawRay(transform.position + new Vector3(groundRayOffset, 0, 0), Vector2.down * groundRayLength);
+        Gizmos.DrawRay(transform.position - new Vector3(groundRayOffset, 0, 0), Vector2.down * groundRayLength);
 
         Gizmos.DrawRay(transform.position, Vector2.right * damageRayLength);
         Gizmos.DrawRay(transform.position, Vector2.left * damageRayLength);
