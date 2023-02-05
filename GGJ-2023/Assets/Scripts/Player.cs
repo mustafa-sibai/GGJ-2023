@@ -29,6 +29,7 @@ public class Player : CustomMonoBehaviour
 
     PlayerHealth playerHealth;
     Vector3 movement;
+    float groundRayOffset;
 
     protected override void Start()
     {
@@ -37,6 +38,8 @@ public class Player : CustomMonoBehaviour
         levelStart = GameObject.FindWithTag("StartDoor");
         checkpoint = GameObject.FindWithTag("Checkpoint");
         curentCheckpoint = levelStart.transform.position;
+
+        groundRayOffset = 0.3f;
     }
 
     protected override void Awake()
@@ -68,12 +71,19 @@ public class Player : CustomMonoBehaviour
 
         if (groundTimerGracePeriod > 0.05f)
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position,
+            RaycastHit2D leftGroundRay = Physics2D.Raycast(transform.position - 
+                new Vector3(groundRayOffset, 0, 0),
                  Vector2.down,
                  groundRayLength,
                  LayerMask.GetMask("Ground"));
 
-            if (hit.collider != null)
+            RaycastHit2D rightGroundRay = Physics2D.Raycast(transform.position + 
+                new Vector3(groundRayOffset, 0, 0),
+                 Vector2.down,
+                 groundRayLength,
+                 LayerMask.GetMask("Ground"));
+
+            if (leftGroundRay.collider != null || rightGroundRay.collider != null)
             {
                 groundTimerGracePeriod = 0;
                 isTouchingGround = true;
@@ -177,7 +187,8 @@ public class Player : CustomMonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawRay(transform.position, Vector2.down * groundRayLength);
+        Gizmos.DrawRay(transform.position + new Vector3(groundRayOffset, 0, 0), Vector2.down * groundRayLength);
+        Gizmos.DrawRay(transform.position - new Vector3(groundRayOffset, 0, 0), Vector2.down * groundRayLength);
 
         Gizmos.DrawRay(transform.position, Vector2.right * damageRayLength);
         Gizmos.DrawRay(transform.position, Vector2.left * damageRayLength);
