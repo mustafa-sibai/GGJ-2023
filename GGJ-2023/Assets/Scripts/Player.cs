@@ -16,7 +16,6 @@ public class Player : CustomMonoBehaviour
     Animator animator;
 
     Rigidbody2D rb;
-    FlashRed flashRed;
 
     //---- TERRIBLE checkpoint system.
 
@@ -28,8 +27,8 @@ public class Player : CustomMonoBehaviour
 
     float groundTimerGracePeriod;
 
-
     PlayerHealth playerHealth;
+    Vector3 movement;
 
     protected override void Start()
     {
@@ -46,7 +45,6 @@ public class Player : CustomMonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        flashRed = GetComponent<FlashRed>();
         playerHealth = FindObjectOfType<PlayerHealth>();
 
         isTouchingGround = false;
@@ -116,6 +114,8 @@ public class Player : CustomMonoBehaviour
                 hit.collider.gameObject.GetComponent<Enemy>().ReduceHealth(1);
             }
         }
+
+        movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0, 0).normalized * speed;
     }
 
     protected override void OnStartUpdate()
@@ -139,8 +139,11 @@ public class Player : CustomMonoBehaviour
         {
             animator.SetBool("Run", true);
         }
+    }
 
-        transform.position += direction * speed * Time.deltaTime;
+    private void FixedUpdate()
+    {
+        rb.velocity = new Vector2(movement.x, rb.velocity.y);
     }
 
     protected override void OnStopUpdate()
@@ -158,7 +161,6 @@ public class Player : CustomMonoBehaviour
     public void ReduceHealth()
     {
         health = playerHealth.DamagePlayer(health);
-        //flashRed.FlashColor(0.25f);
         animator.SetTrigger("TakeDamage");
 
         if (health <= 0)
