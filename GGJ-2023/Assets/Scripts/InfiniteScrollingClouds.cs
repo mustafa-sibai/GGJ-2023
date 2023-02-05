@@ -5,8 +5,6 @@ using UnityEngine;
 public class InfiniteScrollingClouds : MonoBehaviour
 {
     [SerializeField] GameObject[] clouds;
-    [SerializeField] GameObject startTeleportPoint;
-    [SerializeField] GameObject endTeleportPoint;
     [SerializeField] float speed;
     [SerializeField] float paralaxSpeed;
 
@@ -17,17 +15,7 @@ public class InfiniteScrollingClouds : MonoBehaviour
 
     void Update()
     {
-        clouds[0].GetComponent<SpriteRenderer>().size += new Vector2(paralaxSpeed * Time.deltaTime, 0);
-
-        for (int i = 1; i < clouds.Length; i++)
-        {
-            clouds[i].transform.position += Vector3.left * speed * Time.deltaTime;
-
-            if (clouds[i].transform.position.x <= endTeleportPoint.transform.position.x)
-            {
-                clouds[i].transform.position = new Vector3(startTeleportPoint.transform.position.x,
-                    startTeleportPoint.transform.position.y, 0);
-            }
-        }
+        clouds[0].transform.position += Vector3.left * paralaxSpeed * Time.deltaTime;
+        clouds[1].transform.position += Vector3.left * speed * Time.deltaTime;
     }
 }
