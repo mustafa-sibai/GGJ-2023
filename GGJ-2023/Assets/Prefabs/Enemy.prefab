@@ -105,6 +105,7 @@ MonoBehaviour:
   radius: 0.5
   attackFrequancy: 0.5
   attackRayLength: 15
+  health: 3
 --- !u!50 &2076173369
 Rigidbody2D:
   serializedVersion: 4
