@@ -113,7 +113,7 @@ public class Player : CustomMonoBehaviour
 
             if (hit.collider != null)
             {
-                hit.collider.gameObject.GetComponent<Enemy>().ReduceHealth(10);
+                hit.collider.gameObject.GetComponent<Enemy>().ReduceHealth(1);
             }
         }
     }
@@ -158,7 +158,7 @@ public class Player : CustomMonoBehaviour
     public void ReduceHealth()
     {
         health = playerHealth.DamagePlayer(health);
-        flashRed.FlashColor(0.25f);
+        //flashRed.FlashColor(0.25f);
         animator.SetTrigger("TakeDamage");
 
         if (health <= 0)
