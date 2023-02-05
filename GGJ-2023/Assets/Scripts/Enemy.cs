@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : CustomMonoBehaviour
@@ -35,6 +36,9 @@ public class Enemy : CustomMonoBehaviour
     {
         base.OnStartUpdate();
 
+        if (health <= 0)
+            return;
+
         timer += Time.deltaTime;
 
         if (timer >= attackFrequancy)
@@ -65,25 +69,25 @@ public class Enemy : CustomMonoBehaviour
 
                 timer = 0;
             }
-            else
+        }
+        else
+        {
+            animator.SetBool("Run", true);
+
+            Vector3 direction = (new Vector3(
+                        player.transform.position.x,
+                        transform.position.y,
+                        0) - transform.position).normalized;
+
+            if (direction.x < 0 && transform.localScale.x < 0 ||
+                direction.x > 0 && transform.localScale.x > 0)
             {
-                animator.SetBool("Run", true);
-
-                Vector3 direction = (new Vector3(
-                            player.transform.position.x,
-                            transform.position.y,
-                            0) - transform.position).normalized;
-
-                if (direction.x < 0 && transform.localScale.x < 0 ||
-                    direction.x > 0 && transform.localScale.x > 0)
-                {
-                    transform.localScale = new Vector3(transform.localScale.x * -1,
-                        transform.localScale.y,
-                        transform.localScale.z);
-                }
-
-                transform.position += direction * speed * Time.deltaTime;
+                transform.localScale = new Vector3(transform.localScale.x * -1,
+                    transform.localScale.y,
+                    transform.localScale.z);
             }
+
+            transform.position += direction * speed * Time.deltaTime;
         }
     }
 
@@ -107,9 +111,10 @@ public class Enemy : CustomMonoBehaviour
         print(health);
         animator.SetTrigger("GetHit");
 
-        if(health <= 0)
+        if (health <= 0)
         {
             animator.SetTrigger("Die");
+            Destroy(gameObject, 1);
         }
         //flashRed.FlashColor(0.25f);
     }
