@@ -62,7 +62,7 @@ public class Enemy : CustomMonoBehaviour
 
                 if (rightRay.collider != null || leftRay.collider != null)
                 {
-                    player.ReduceHealth(10);
+                    player.ReduceHealth();
                 }
 
                 timer = 0;
