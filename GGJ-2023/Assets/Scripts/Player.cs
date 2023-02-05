@@ -1,8 +1,10 @@
+using EZCameraShake;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
 
 public class Player : CustomMonoBehaviour
@@ -31,6 +33,9 @@ public class Player : CustomMonoBehaviour
     Vector3 movement;
     float groundRayOffset;
 
+    CameraShaker cameraShaker;
+    PostProcessVolume postProcessVolume;
+
     protected override void Start()
     {
         base.Start();
@@ -38,6 +43,9 @@ public class Player : CustomMonoBehaviour
         levelStart = GameObject.FindWithTag("StartDoor");
         checkpoint = GameObject.FindWithTag("Checkpoint");
         curentCheckpoint = levelStart.transform.position;
+
+        cameraShaker = FindAnyObjectByType<CameraShaker>();
+        postProcessVolume = FindObjectOfType<PostProcessVolume>();
 
         groundRayOffset = 0.3f;
     }
@@ -71,13 +79,13 @@ public class Player : CustomMonoBehaviour
 
         if (groundTimerGracePeriod > 0.05f)
         {
-            RaycastHit2D leftGroundRay = Physics2D.Raycast(transform.position - 
+            RaycastHit2D leftGroundRay = Physics2D.Raycast(transform.position -
                 new Vector3(groundRayOffset, 0, 0),
                  Vector2.down,
                  groundRayLength,
                  LayerMask.GetMask("Ground"));
 
-            RaycastHit2D rightGroundRay = Physics2D.Raycast(transform.position + 
+            RaycastHit2D rightGroundRay = Physics2D.Raycast(transform.position +
                 new Vector3(groundRayOffset, 0, 0),
                  Vector2.down,
                  groundRayLength,
@@ -105,7 +113,7 @@ public class Player : CustomMonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            animator.SetInteger("Attack", Random.Range(1, 4));
+            animator.SetInteger("Attack", 1);
 
             Vector2 direction = Vector2.zero;
 
@@ -172,6 +180,8 @@ public class Player : CustomMonoBehaviour
     {
         health = playerHealth.DamagePlayer(health);
         animator.SetTrigger("TakeDamage");
+        cameraShaker.Shake(CameraShakePresets.Bump);
+        StartCoroutine(TurnOnAndOffPostProcessing());
 
         if (health <= 0)
         {
@@ -211,5 +221,12 @@ public class Player : CustomMonoBehaviour
             ReduceHealth();
             RespawnPlayer();
         }
+    }
+
+    IEnumerator TurnOnAndOffPostProcessing()
+    {
+        postProcessVolume.enabled = true;
+        yield return new WaitForSeconds(0.5f);
+        postProcessVolume.enabled = false;
     }
 }
