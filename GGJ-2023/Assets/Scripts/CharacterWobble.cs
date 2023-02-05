@@ -32,11 +32,15 @@ public class CharacterWobble : MonoBehaviour
     float timer = 0;
 
     [SerializeField] float typeWriterEffectSpeed;
+    [SerializeField] bool autoStart;
 
     void Start()
     {
         textMesh = GetComponent<TMP_Text>();
         text = "";
+
+        if (autoStart)
+            SetText(textMesh.text);
     }
 
     public void SetText(string newText)
