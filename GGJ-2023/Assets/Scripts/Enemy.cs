@@ -15,12 +15,10 @@ public class Enemy : CustomMonoBehaviour
     [SerializeField] int health;
 
     float timer;
-    FlashRed flashRed;
 
     protected override void Awake()
     {
         base.Awake();
-        flashRed = GetComponent<FlashRed>();
     }
 
     protected override void Start()
@@ -38,6 +36,24 @@ public class Enemy : CustomMonoBehaviour
 
         if (health <= 0)
             return;
+
+        animator.SetBool("Run", true);
+
+        Vector3 direction = (new Vector3(
+                    player.transform.position.x,
+                    transform.position.y,
+                    0) - transform.position).normalized;
+
+        if (direction.x < 0 && transform.localScale.x < 0 ||
+            direction.x > 0 && transform.localScale.x > 0)
+        {
+            transform.localScale = new Vector3(transform.localScale.x * -1,
+                transform.localScale.y,
+                transform.localScale.z);
+        }
+
+        transform.position += direction * speed * Time.deltaTime;
+
 
         timer += Time.deltaTime;
 
@@ -69,25 +85,6 @@ public class Enemy : CustomMonoBehaviour
 
                 timer = 0;
             }
-        }
-        else
-        {
-            animator.SetBool("Run", true);
-
-            Vector3 direction = (new Vector3(
-                        player.transform.position.x,
-                        transform.position.y,
-                        0) - transform.position).normalized;
-
-            if (direction.x < 0 && transform.localScale.x < 0 ||
-                direction.x > 0 && transform.localScale.x > 0)
-            {
-                transform.localScale = new Vector3(transform.localScale.x * -1,
-                    transform.localScale.y,
-                    transform.localScale.z);
-            }
-
-            transform.position += direction * speed * Time.deltaTime;
         }
     }
 
