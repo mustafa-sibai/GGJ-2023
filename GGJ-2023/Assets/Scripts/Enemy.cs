@@ -15,12 +15,10 @@ public class Enemy : CustomMonoBehaviour
     [SerializeField] int health;
 
     float timer;
-    FlashRed flashRed;
 
     protected override void Awake()
     {
         base.Awake();
-        flashRed = GetComponent<FlashRed>();
     }
 
     protected override void Start()
@@ -102,21 +100,17 @@ public class Enemy : CustomMonoBehaviour
     public void IncreaseHealth(int incrementBy)
     {
         health += incrementBy;
-        print(health);
     }
 
     public void ReduceHealth(int reduceBy)
     {
         health -= reduceBy;
-        print(health);
         animator.SetTrigger("GetHit");
 
         if (health <= 0)
         {
             animator.SetTrigger("Die");
-            Destroy(gameObject, 1);
         }
-        //flashRed.FlashColor(0.25f);
     }
 
     void OnDrawGizmos()

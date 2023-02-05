@@ -14,6 +14,7 @@ public class Player : CustomMonoBehaviour
     [SerializeField] float jumpForce;
     [SerializeField] float groundRayLength;
     [SerializeField] float damageRayLength;
+    [SerializeField] GameObject attackEffect;
 
     Animator animator;
 
@@ -114,6 +115,7 @@ public class Player : CustomMonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             animator.SetInteger("Attack", 1);
+            attackEffect.SetActive(true);
 
             Vector2 direction = Vector2.zero;
 
