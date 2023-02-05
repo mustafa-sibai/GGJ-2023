@@ -292,7 +292,7 @@ MonoBehaviour:
   speed: 10
   jumpForce: 570
   groundRayLength: 0.4
-  damageRayLength: 0.5
+  damageRayLength: 0.7
   attackEffect: {fileID: 871732957}
   attackSoundEffect: {fileID: 8300000, guid: 15e094320ae5a8641bbed148feb154f4, type: 3}
   gettingHitSoundEffect: {fileID: 8300000, guid: c9a36b7590d629a44a7186efe08f933f, type: 3}
