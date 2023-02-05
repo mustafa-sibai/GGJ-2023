@@ -18,15 +18,32 @@ public class Player : CustomMonoBehaviour
     Rigidbody2D rb;
     FlashRed flashRed;
 
+    //---- TERRIBLE checkpoint system.
+
+    public GameObject levelStart;
+    public GameObject checkpoint;
+    public Vector2 curentCheckpoint;
+
     bool isTouchingGround;
 
     float groundTimerGracePeriod;
 
+
     PlayerHealth playerHealth;
+
+    protected override void Start()
+    {
+        base.Start();
+
+        levelStart = GameObject.FindWithTag("StartDoor");
+        checkpoint = GameObject.FindWithTag("Checkpoint");
+        curentCheckpoint = levelStart.transform.position;
+    }
 
     protected override void Awake()
     {
         base.Awake();
+
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         flashRed = GetComponent<FlashRed>();
@@ -162,5 +179,24 @@ public class Player : CustomMonoBehaviour
 
         Gizmos.DrawRay(transform.position, Vector2.right * damageRayLength);
         Gizmos.DrawRay(transform.position, Vector2.left * damageRayLength);
+    }
+
+    public void RespawnPlayer()
+    {
+        transform.position = curentCheckpoint;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Checkpoint")
+        {
+            curentCheckpoint = collision.transform.position;
+        }
+
+        if (collision.tag == "Hazard")
+        {
+            ReduceHealth();
+            RespawnPlayer();
+        }
     }
 }
