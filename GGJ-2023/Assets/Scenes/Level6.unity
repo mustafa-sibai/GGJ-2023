@@ -9763,6 +9763,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9214217348566943790, guid: cf9ce631c48999f4a9bdf97586a34290, type: 3}
+      propertyPath: speed
+      value: 4.51
+      objectReference: {fileID: 0}
+    - target: {fileID: 9214217348566943790, guid: cf9ce631c48999f4a9bdf97586a34290, type: 3}
       propertyPath: attackFrequancy
       value: 1
       objectReference: {fileID: 0}
