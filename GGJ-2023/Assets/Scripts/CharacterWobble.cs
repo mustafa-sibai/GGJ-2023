@@ -137,15 +137,15 @@ public class CharacterWobble : MonoBehaviour
             vertices[index + 2] += offset;
             vertices[index + 3] += offset;
 
-            string hexcolor = Rainbow(textMesh.textInfo.characterCount * 5, i + count + (int)Time.deltaTime);
-            Color32 myColor32 = hexToColor(hexcolor);
+            //string hexcolor = Rainbow(textMesh.textInfo.characterCount * 5, i + count + (int)Time.deltaTime);
+           // Color32 myColor32 = hexToColor(hexcolor);
             int meshIndex = textMesh.textInfo.characterInfo[i].materialReferenceIndex;
             int vertexIndex = textMesh.textInfo.characterInfo[i].vertexIndex;
-            Color32[] vertexColors = textMesh.textInfo.meshInfo[meshIndex].colors32;
-            vertexColors[vertexIndex + 0] = myColor32;
-            vertexColors[vertexIndex + 1] = myColor32;
-            vertexColors[vertexIndex + 2] = myColor32;
-            vertexColors[vertexIndex + 3] = myColor32;
+           // Color32[] vertexColors = textMesh.textInfo.meshInfo[meshIndex].colors32;
+           // vertexColors[vertexIndex + 0] = myColor32;
+           // vertexColors[vertexIndex + 1] = myColor32;
+           // vertexColors[vertexIndex + 2] = myColor32;
+           // vertexColors[vertexIndex + 3] = myColor32;
         }
     }
 
@@ -165,7 +165,7 @@ public class CharacterWobble : MonoBehaviour
         return new Color32(r, g, b, a);
     }
 
-    public static string Rainbow(int numOfSteps, int step)
+   /* public static string Rainbow(int numOfSteps, int step)
     {
         var r = 0.0;
         var g = 0.0;
@@ -208,5 +208,5 @@ public class CharacterWobble : MonoBehaviour
                 break;
         }
         return "#" + ((int)(r * 255)).ToString("X2") + ((int)(g * 255)).ToString("X2") + ((int)(b * 255)).ToString("X2");
-    }
+    }*/
 }
