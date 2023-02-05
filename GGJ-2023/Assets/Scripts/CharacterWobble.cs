@@ -36,18 +36,27 @@ public class CharacterWobble : MonoBehaviour
     void Start()
     {
         textMesh = GetComponent<TMP_Text>();
+        text = "";
+    }
 
+    public void SetText(string newText)
+    {
+        wiggleStartAndEnds.Clear();
+
+        text = newText;
+
+        indexInText = 0;
         int startIndex = -1;
         int endIndex = -1;
         int totalRemoval = 0;
 
-        for (int i = 0; i < textMesh.text.Length; i++)
+        for (int i = 0; i < text.Length; i++)
         {
-            if (textMesh.text[i] == '@' && startIndex == -1)
+            if (text[i] == '@' && startIndex == -1)
             {
                 startIndex = i;
             }
-            else if (textMesh.text[i] == '@' && endIndex == -1)
+            else if (text[i] == '@' && endIndex == -1)
             {
                 endIndex = i;
                 totalRemoval++;
@@ -58,16 +67,16 @@ public class CharacterWobble : MonoBehaviour
             }
         }
 
-        for (int i = textMesh.text.Length - 1; i > 0; i--)
+        for (int i = text.Length - 1; i > 0; i--)
         {
-            if (textMesh.text[i] == '@')
+            if (text[i] == '@')
             {
-                textMesh.text = textMesh.text.Remove(i, 1);
+                text = text.Remove(i, 1);
             }
         }
 
-        text = textMesh.text;
         textMesh.text = "";
+        count = 0;
     }
 
     void Update()
