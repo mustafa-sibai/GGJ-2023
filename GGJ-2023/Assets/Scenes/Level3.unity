@@ -8831,7 +8831,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &794114902
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12964,6 +12964,10 @@ PrefabInstance:
     - target: {fileID: 139441818204531852, guid: 10a9cad1a2f5c4441adcca0946df4098, type: 3}
       propertyPath: m_Name
       value: Checkpoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 139441818204531854, guid: 10a9cad1a2f5c4441adcca0946df4098, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 139441818204531855, guid: 10a9cad1a2f5c4441adcca0946df4098, type: 3}
       propertyPath: m_RootOrder
