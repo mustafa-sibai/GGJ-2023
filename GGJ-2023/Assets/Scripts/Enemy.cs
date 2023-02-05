@@ -14,6 +14,11 @@ public class Enemy : CustomMonoBehaviour
     [SerializeField] int attackRayLength;
     [SerializeField] int health;
 
+    [SerializeField] AudioClip gettingHitSoundEffect;
+    [SerializeField] AudioClip enemyAttackSoundEffect;
+
+    AudioSource audioSource;
+
     float timer;
 
     protected override void Awake()
@@ -26,6 +31,7 @@ public class Enemy : CustomMonoBehaviour
         base.Start();
         player = FindObjectOfType<Player>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
 
         timer = 0;
     }
@@ -53,7 +59,6 @@ public class Enemy : CustomMonoBehaviour
         }
 
         transform.position += direction * speed * Time.deltaTime;
-
 
         timer += Time.deltaTime;
 
@@ -86,6 +91,16 @@ public class Enemy : CustomMonoBehaviour
                 timer = 0;
             }
         }
+    }
+
+    public void PlayAttackSoundEffect()
+    {
+        audioSource.PlayOneShot(enemyAttackSoundEffect);
+    }
+
+    public void PlayGettingHitSoundEffect()
+    {
+        audioSource.PlayOneShot(gettingHitSoundEffect);
     }
 
     protected override void OnStopUpdate()

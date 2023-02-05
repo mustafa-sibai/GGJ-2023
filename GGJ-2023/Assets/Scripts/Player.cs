@@ -16,6 +16,11 @@ public class Player : CustomMonoBehaviour
     [SerializeField] float damageRayLength;
     [SerializeField] GameObject attackEffect;
 
+    [SerializeField] AudioClip attackSoundEffect;
+    [SerializeField] AudioClip gettingHitSoundEffect;
+
+    AudioSource audioSource;
+
     Animator animator;
 
     Rigidbody2D rb;
@@ -47,6 +52,7 @@ public class Player : CustomMonoBehaviour
 
         cameraShaker = FindAnyObjectByType<CameraShaker>();
         postProcessVolume = FindObjectOfType<PostProcessVolume>();
+        audioSource = GetComponent<AudioSource>();
 
         groundRayOffset = 0.3f;
     }
@@ -114,6 +120,8 @@ public class Player : CustomMonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
+            audioSource.PlayOneShot(attackSoundEffect);
+
             animator.SetInteger("Attack", 1);
             attackEffect.SetActive(true);
 
@@ -189,6 +197,11 @@ public class Player : CustomMonoBehaviour
         {
             SceneManager.LoadScene(0);
         }
+    }
+
+    public void PlayGettingHitSoundEffect()
+    {
+        audioSource.PlayOneShot(gettingHitSoundEffect);
     }
 
     public void StopAttack()
